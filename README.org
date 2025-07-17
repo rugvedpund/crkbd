@@ -115,7 +115,7 @@ an optional  base config for Colemak
          (MO emacs) lapo (G space)  ent rapc (TT numeric))
 #+END_SRC
 
-** keymap.c
+** DONE keymap.c
 
 This will generate a =keymap.c= file with =org-babel-tangle= and should be run before the elisp code block for the keymap described above.
 
@@ -203,7 +203,7 @@ void keyboard_post_init_user(void) {
 }
 #+END_SRC
 
-** rules.mk
+** DONE rules.mk
 
 this will create a =rules.mk= file with some specifics for the [[https://github.com/qmk/qmk_firmware/tree/master/keyboards/crkbd][Corne Keyboard (CRKBD)]]
 
@@ -225,7 +225,7 @@ CONSOLE_ENABLE     = yes  # debug info
 VIA_ENABLE         = no  # to enable configuraiton with VIA
 #+END_SRC
 
-** config.h
+** DONE config.h
 
 This will generate a =config.h= file
 
@@ -329,7 +329,7 @@ Default colours & modes
 #endif
 #+END_SRC
 
-** build (generate, compile and flash cycle)
+** TODO build (generate, compile and flash cycle)
 
 first tangle this file
 

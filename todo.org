@@ -1,0 +1,4 @@
+* Inbox
+** TODO mine is pro-micro
+
+[[file:~/src/crkbd/rules.mk::BOOTLOADER = dfu # Elite-C]]
