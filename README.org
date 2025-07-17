@@ -219,8 +219,8 @@ RGB_MATRIX_ENABLE  = yes # WS2812 # per-key RGB and underglow
 UNICODE_ENABLE     = yes
 
 OLED_DRIVER_ENABLE = yes
-MOUSEKEY_ENABLE    = no  # use mouse keys or not
-CONSOLE_ENABLE     = no  # debug info
+MOUSEKEY_ENABLE    = yes  # use mouse keys or not
+CONSOLE_ENABLE     = yes  # debug info
 
 VIA_ENABLE         = no  # to enable configuraiton with VIA
 #+END_SRC
@@ -254,11 +254,11 @@ taping timing and tap/hold (as seen in the [[https://beta.docs.qmk.fm/using-qmk/
 
 Unicode input method (tangle as required)
 
-#+BEGIN_SRC c :tangle config.h
+#+BEGIN_SRC c :tangle no
 #define UNICODE_SELECTED_MODES UC_MAC
 #+END_SRC
 
-#+BEGIN_SRC c :tangle no
+#+BEGIN_SRC c :tangle config.h
 #define UNICODE_SELECTED_MODES UC_LNX, UC_MAC
 #+END_SRC
 
