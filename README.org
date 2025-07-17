@@ -60,7 +60,7 @@ A complete keymap can be defined within =mugur-mugur= which will generate the re
 #+BEGIN_SRC emacs-lisp :tangle no :results silent :eval query :lexical yes
 (require 'mugur)
 
-(let ((mugur-qmk-path       "~/src/qmk_firmware")
+(let ((mugur-qmk-path       "~/src/miryoku_qmk")
       (mugur-keyboard-name  "crkbd")
       (mugur-layout-name    "LAYOUT_split_3x6_3")
       (mugur-keymap-name    "zzkt4")
@@ -346,24 +346,59 @@ then write the keymap as defined above
 then compile and/or write to the keyboard
 
 #+name: qmk
-#+BEGIN_SRC shell :dir ~/qmk_firmware :wrap SRC text :results raw :tangle no
+#+BEGIN_SRC shell :dir ~/src/miryoku_qmk :wrap SRC text :results raw :tangle no
 qmk compile -kb crkbd -km zzkt4
 #+END_SRC
 
+#+RESULTS: qmk
+#+begin_SRC text
+usage: qmk flash [-h] [-c] [-e ENV] [-j PARALLEL] [-n] [-km KEYMAP]
+                 [-kb KEYBOARD] [-m MCU] [-bl BOOTLOADER] [-b]
+                 [filename]
+
+positional arguments:
+  filename              A configurator export JSON to be compiled and flashed
+                        or a pre-compiled binary firmware file (bin/hex) to be
+                        flashed.
+
+options:
+  -h, --help            show this help message and exit
+  -c, --clean           Remove object files before compiling.
+  -e ENV, --env ENV     Set a variable to be passed to make. May be passed
+                        multiple times.
+  -j PARALLEL, --parallel PARALLEL
+                        Set the number of parallel make jobs; 0 means
+                        unlimited.
+  -n, --dry-run         Don't actually build, just show the make command to be
+                        run.
+  -km KEYMAP, --keymap KEYMAP
+                        The keymap to build a firmware for. Ignored when a
+                        configurator export is supplied.
+  -kb KEYBOARD, --keyboard KEYBOARD
+                        The keyboard to build a firmware for. Ignored when a
+                        configurator export is supplied.
+  -m MCU, --mcu MCU     The MCU name. Required for HalfKay, HID, USBAspLoader
+                        and ISP flashing.
+  -bl BOOTLOADER, --bootloader BOOTLOADER
+                        The flash command, corresponding to qmk's make options
+                        of bootloaders.
+  -b, --bootloaders     List the available bootloaders.
+#+end_SRC
+
 #+name: qmk
-#+BEGIN_SRC shell :dir ~/qmk_firmware :wrap SRC text :results raw  :tangle no
+#+BEGIN_SRC shell :dir ~/src/miryoku_qmk :wrap SRC text :results raw  :tangle no
 qmk flash -km zzkt4 -bl dfu
 #+END_SRC
 
 or flash one side at a time…
 
 #+name: qmk
-#+BEGIN_SRC shell :dir ~/qmk_firmware  :wrap SRC text :results raw :tangle no
+#+BEGIN_SRC shell :dir ~/src/miryoku_qmk  :wrap SRC text :results raw :tangle no
 qmk flash -km zzkt4 -bl dfu-split-left
 #+END_SRC
 
 #+name: qmk
-#+BEGIN_SRC shell :dir ~/qmk_firmware wrap SRC text :results raw :tangle no
+#+BEGIN_SRC shell :dir ~/src/miryoku_qmk wrap SRC text :results raw :tangle no
 qmk flash -km zzkt4 -bl dfu-split-right
 #+END_SRC
 
