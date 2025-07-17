@@ -57,10 +57,10 @@ Details of the =mugur= keycode naming can be found in the documentation of  =mug
 A complete keymap can be defined within =mugur-mugur= which will generate the required files to build the firmware.
 
 #+name: keymap
-#+BEGIN_SRC emacs-lisp :tangle no :results silent :eval query
+#+BEGIN_SRC emacs-lisp :tangle no :results silent :eval query :lexical yes
 (require 'mugur)
 
-(let ((mugur-qmk-path       "~/qmk_firmware")
+(let ((mugur-qmk-path       "~/src/qmk_firmware")
       (mugur-keyboard-name  "crkbd")
       (mugur-layout-name    "LAYOUT_split_3x6_3")
       (mugur-keymap-name    "zzkt4")
