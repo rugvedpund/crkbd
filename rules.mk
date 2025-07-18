@@ -1,7 +1,7 @@
 # START-MUGUR-REGION
 # END-MUGUR-REGION
 
-BOOTLOADER         = dfu # Elite-C
+# BOOTLOADER         = dfu # Elite-C
 
 RGBLIGHT_ENABLE    = no
 RGB_MATRIX_ENABLE  = yes # WS2812 # per-key RGB and underglow
