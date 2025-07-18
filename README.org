@@ -61,7 +61,7 @@ A complete keymap can be defined within =mugur-mugur= which will generate the re
 (require 'mugur)
 
 (let ((mugur-qmk-path       "~/src/miryoku_qmk")
-      (mugur-keyboard-name  "crkbd")
+      (mugur-keyboard-name  "crkbd/rev1")
       (mugur-layout-name    "LAYOUT_split_3x6_3")
       (mugur-keymap-name    "zzkt4")
       (mugur-tapping-term    175))
