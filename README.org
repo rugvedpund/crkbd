@@ -70,13 +70,13 @@ A complete keymap can be defined within =mugur-mugur= which will generate the re
   '(("base"
         tab    q   w   e   r   t      y   u   i    o    p     bspace
          C     a   s   d   f   g      h   j   k    l  scolon (LT move ?\')
-     (LT S up) z   x   c   v   b      n   m comma dot  slash (LT hypm down)
+     (LT lshift up) z   x   c   v   b      n   m comma dot  slash (LT hypm down)
          (MO emacs) lapo (G space)  (G ent) rapc (TT numeric))
 
      ("numeric"
        "~"          ?\!   ?\@   ?\#  ?\$  ?\%     ?\^  ?\&  ?\*   -   =  bspace
         0            1     2     3    4    5       6    7    8    9   0  (LT move ent)
-       (LT S left)  "`"   ---   ?\\  ?\{  ?\[     ?\]  ?\} comma dot  |  (LT S right)
+       (LT lshift left)  "`"   ---   ?\\  ?\{  ?\[     ?\]  ?\} comma dot  |  (LT lshift right)
                              (TG qmik) lapo ---  --- rapc ---)
 
      ("move"
@@ -111,7 +111,7 @@ an optional  base config for Colemak
 ("colemak"
         tab    q   w   f   p   g      j   l   u    y   scolon      bspace
          C     a   r   s   t   d      h   n   e    i     o   (LT move ?\')
-     (LT S up) z   x   c   v   b      k   m comma dot  slash (LT hypm down)
+     (LT lshift up) z   x   c   v   b      k   m comma dot  slash (LT hypm down)
          (MO emacs) lapo (G space)  ent rapc (TT numeric))
 #+END_SRC
 
