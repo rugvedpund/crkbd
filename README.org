@@ -14,11 +14,19 @@ For reference, comparison and reading [[https://github.com/manna-harbour/qmk_fir
 - qwerty with space cadets
 - oled goodies; no backlight
 
-* specific mappings
+* keymap
+** [ ] symbol reference
+=mugur= keycodes are in =mugur--symbol=
 
-To create a new layer, start with a blank layer.
+#+BEGIN_SRC emacs-lisp :results silent
+(require 'mugur)
+(find-function 'mugur--symbol)
+#+END_SRC
 
-#+BEGIN_example
+** [ ] firmware
+template:
+#+name: blank-layer
+#+BEGIN_example emacs-lisp
 ("blank"
  --- --- --- --- --- ---    --- --- --- --- --- ---
  --- --- --- --- --- ---    --- --- --- --- --- ---
@@ -26,16 +34,9 @@ To create a new layer, start with a blank layer.
               --- --- ---  --- --- --- )
 #+END_example
 
-=mugur= keycodes are in =mugur--symbol=
-
-#+BEGIN_SRC emacs-lisp :results silent
-(find-function 'mugur--symbol)
-#+END_SRC
-
+mugur
 #+name: keymap
-#+BEGIN_SRC emacs-lisp :tangle no :results silent :eval query :lexical yes
-(require 'mugur)
-
+#+BEGIN_SRC emacs-lisp :results silent :eval query :lexical yes
 (let ((mugur-qmk-path       "~/src/miryoku_qmk")
       (mugur-keyboard-name  "crkbd/rev1")
       (mugur-layout-name    "LAYOUT_split_3x6_3")
@@ -91,9 +92,10 @@ an optional  base config for Colemak
          (MO emacs) lapo (G space)  ent rapc (TT numeric))
 #+END_SRC
 
-** DONE keymap.c
-
-This will generate a =keymap.c= file with =org-babel-tangle= and should be run before the elisp code block for the keymap described above.
+** [ ] keymap.c
+:PROPERTIES:
+:header-args:c: :eval no :comments both
+:END:
 
 #+BEGIN_SRC c :tangle keymap.c
 #include QMK_KEYBOARD_H
@@ -108,7 +110,7 @@ This will generate a =keymap.c= file with =org-babel-tangle= and should be run b
 // END-MUGUR-REGION
 #+END_SRC
 
-add an fm logo animation…
+*** [-] oled animation
 
 #+BEGIN_SRC c :tangle keymap.c
 #ifdef OLED_DRIVER_ENABLE
@@ -168,7 +170,8 @@ void oled_task_user(void) {
 #endif
 #+END_SRC
 
-turn on (or off) debug info (check that =CONSOLE_ENABLE= is set accordingly in =rules.mk= )
+*** [-] debug info
+(check that =CONSOLE_ENABLE= is set accordingly in =rules.mk= )
 
 #+BEGIN_SRC c :tangle keymap.c
 void keyboard_post_init_user(void) {
@@ -179,7 +182,7 @@ void keyboard_post_init_user(void) {
 }
 #+END_SRC
 
-** DONE rules.mk
+** [ ] rules.mk
 
 this will create a =rules.mk= file with some specifics for the [[https://github.com/qmk/qmk_firmware/tree/master/keyboards/crkbd][Corne Keyboard (CRKBD)]]
 
@@ -201,7 +204,7 @@ CONSOLE_ENABLE     = yes  # debug info
 VIA_ENABLE         = no  # to enable configuraiton with VIA
 #+END_SRC
 
-** DONE config.h
+** [ ] config.h
 
 This will generate a =config.h= file
 
@@ -230,12 +233,8 @@ taping timing and tap/hold (as seen in the [[https://beta.docs.qmk.fm/using-qmk/
 
 Unicode input method (tangle as required)
 
-#+BEGIN_SRC c :tangle no
-#define UNICODE_SELECTED_MODES UC_MAC
-#+END_SRC
-
 #+BEGIN_SRC c :tangle config.h
-#define UNICODE_SELECTED_MODES UC_LNX, UC_MAC
+#define UNICODE_SELECTED_MODES UC_LNX
 #+END_SRC
 
 for VIA compatibility (if needed)
@@ -245,125 +244,28 @@ for VIA compatibility (if needed)
 #define PRODUCT_ID 0x0001
 #+END_SRC
 
-RGB matrix & lighting effects
-
-#+BEGIN_SRC c++ :tangle config.h
-#ifdef RGB_MATRIX_ENABLE
-#define RGB_MATRIX_KEYPRESSES // reacts to keypresses
-#define RGB_DISABLE_WHEN_USB_SUSPENDED true // turn off effects when suspended
-#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
-#define RGB_MATRIX_LED_PROCESS_LIMIT (DRIVER_LED_TOTAL + 4) / 5 // limits the number of LEDs to process in an animation per task run (increases keyboard responsiveness)
-#define RGB_MATRIX_LED_FLUSH_LIMIT 16 // limits in milliseconds how frequently an animation will update the LEDs. 16 (16ms) is equivalent to limiting to 60fps (increases keyboard responsiveness)
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150 // limits maximum brightness of LEDs to 150 out of 255. Higher may cause the controller to crash.
-#define RGB_MATRIX_HUE_STEP 8
-#define RGB_MATRIX_SAT_STEP 8
-#define RGB_MATRIX_VAL_STEP 8
-#define RGB_MATRIX_SPD_STEP 10
-#+END_SRC
-
-Disable the animations you don't want/need. You will need to disable a good number of these because they take up a lot of space. Disable until you can successfully compile your firmware.
-
-#+BEGIN_SRC c++ :tangle config.h
-#define DISABLE_RGB_MATRIX_ALPHAS_MODS
-#define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
-/* #define DISABLE_RGB_MATRIX_BREATHING */
-#define DISABLE_RGB_MATRIX_CYCLE_ALL
-#define DISABLE_RGB_MATRIX_CYCLE_LEFT_RIGHT
-#define DISABLE_RGB_MATRIX_CYCLE_UP_DOWN
-#define DISABLE_RGB_MATRIX_CYCLE_OUT_IN
-#define DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
-#define DISABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
-#define DISABLE_RGB_MATRIX_DUAL_BEACON
-#define DISABLE_RGB_MATRIX_RAINBOW_BEACON
-#define DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
-#define DISABLE_RGB_MATRIX_RAINDROPS
-#define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
-/* #define DISABLE_RGB_MATRIX_TYPING_HEATMAP  */
-#define DISABLE_RGB_MATRIX_DIGITAL_RAIN
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
-#define DISABLE_RGB_MATRIX_SPLASH
-#define DISABLE_RGB_MATRIX_MULTISPLASH
-#define DISABLE_RGB_MATRIX_SOLID_SPLASH
-#define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
-#+END_SRC
-
-Default colours & modes
-
-#+BEGIN_SRC c :tangle config.h
-#define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_TYPING_HEATMAP
-#define RGB_MATRIX_STARTUP_HUE 128 // HSV_CYAN
-#define RGB_MATRIX_STARTUP_SAT 255
-#define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS
-// #define RGB_MATRIX_STARTUP_SPD
-#endif
-#+END_SRC
-
-** TODO build (generate, compile and flash cycle)
-
-first tangle this file
-
+** [ ] build
+*** write keymap files
 #+BEGIN_SRC emacs-lisp :tangle no :results silent
 (org-babel-tangle)
 #+END_SRC
-
-then write the keymap as defined above
-
+- [[file:keymap.c]]
+- [[file:rules.mk]]
+- [[file:config.h]]
+*** write to =qmk_firmware=
 #+BEGIN_SRC emacs-lisp :noweb yes :tangle no :results silent
 <<keymap()>>
 #+END_SRC
-
-then compile and/or write to the keyboard
-
+*** check compile
 #+name: qmk
 #+BEGIN_SRC shell :dir ~/src/miryoku_qmk :wrap SRC text :results raw :tangle no
-qmk compile -kb crkbd -km zzkt4
+qmk compile -kb crkbd -km pufoo
 #+END_SRC
 
-#+RESULTS: qmk
-#+begin_SRC text
-usage: qmk flash [-h] [-c] [-e ENV] [-j PARALLEL] [-n] [-km KEYMAP]
-                 [-kb KEYBOARD] [-m MCU] [-bl BOOTLOADER] [-b]
-                 [filename]
-
-positional arguments:
-  filename              A configurator export JSON to be compiled and flashed
-                        or a pre-compiled binary firmware file (bin/hex) to be
-                        flashed.
-
-options:
-  -h, --help            show this help message and exit
-  -c, --clean           Remove object files before compiling.
-  -e ENV, --env ENV     Set a variable to be passed to make. May be passed
-                        multiple times.
-  -j PARALLEL, --parallel PARALLEL
-                        Set the number of parallel make jobs; 0 means
-                        unlimited.
-  -n, --dry-run         Don't actually build, just show the make command to be
-                        run.
-  -km KEYMAP, --keymap KEYMAP
-                        The keymap to build a firmware for. Ignored when a
-                        configurator export is supplied.
-  -kb KEYBOARD, --keyboard KEYBOARD
-                        The keyboard to build a firmware for. Ignored when a
-                        configurator export is supplied.
-  -m MCU, --mcu MCU     The MCU name. Required for HalfKay, HID, USBAspLoader
-                        and ISP flashing.
-  -bl BOOTLOADER, --bootloader BOOTLOADER
-                        The flash command, corresponding to qmk's make options
-                        of bootloaders.
-  -b, --bootloaders     List the available bootloaders.
-#+end_SRC
-
+** [ ] flash
 #+name: qmk
 #+BEGIN_SRC shell :dir ~/src/miryoku_qmk :wrap SRC text :results raw  :tangle no
-qmk flash -km zzkt4 -bl dfu
+qmk flash -km pufoo -bl avrdude
 #+END_SRC
 
 or flash one side at a time…
@@ -379,17 +281,9 @@ qmk flash -km zzkt4 -bl dfu-split-right
 #+END_SRC
 
 * illustrative
-
-#+caption: alphanumeric layers (0-2)
-[[file:img/zzkt--alphalikes.png]]
-
-#+caption: emacs layers (3-4)
-[[file:img/zzkt--emacs.png]]
-
-see also [[http://www.keyboard-layout-editor.com/##@_name=zzkt%20-%20alphalikes&author=https%2F:%2F%2F%2F%2Fgithub.com%2F%2Fzzkt%2F%2Fcrkbd&notes=layers%2F:%0A-%200%20default%0A-%201%20numeric%0A-%202%20move%0A-%203%20emacs%0A-%204%20hypm%0A-%205%20qmik&plate:false%3B&@_x:3&t=%23000000%0A%0A%23dd3c84%3B&=%0A%0A%23%0A%0A%0A%0A%0A%0A%0AE&_x:7%3B&=%0A%0A*%0A%0A%0A%0A%0A%0A%0AI%3B&@_y:-0.9&x:2&t=%23000000%0A%0A%23dd3c84%0A%231c937f%3B&=%0A%0A%2F@%0A%E2%96%B2%0A%0A%0A%0A%0A%0AW%3B&@_y:-1&x:4&t=%23000000%0A%0A%23dd3c84%3B&=%0A%0A$%0A%0A%0A%0A%0A%0A%0AR&_x:5%3B&=%0A%0A%2F&%0A%0A%0A%0A%0A%0A%0AU&_x:1&t=%23000000%0A%0A%23dd3c84%0A%0A%0A%0A%0A%23dd3c84&fa@:0&:0&:4&:0&:0&:0&:0&:4%3B%3B&=%0A%0A%2F_%0A%0A%0A%0A%0A-%0A%0AO%3B&@_y:-0.9000000000000001&x:5&t=%23000000%0A%0A%23dd3c84&f:3%3B&=%0A%0A%25%0A%0A%0A%0A%0A%0A%0AT&_x:3&f:3%3B&=%0A%0A%5E%0A%0A%0A%0A%0A%0A%0AY%3B&@_y:-0.8999999999999999&f:3%3B&=%0A%0A~%0A%0A%0A%0ATab&_t=%23000000%0A%0A%23dd3c84%0A%231c937f&fa@:0&:0&:0&:2%3B%3B&=%0A%0A!%0AM-v%0A%0A%0A%0A%0A%0AQ&_x:11&t=%23000000%0A%0A%23dd3c84%0A%0A%0A%0A%0A%23dd3c84%3B&=%0A%0A+%0A%0A%0A%0A%0A%2F=%0A%0AP&_t=%23000000&a:7%3B&=Bksp%3B&@_y:-0.30000000000000004&x:3&t=%23000000%0A%0A%23dd3c84%0A1c937f&a:4&f:3%3B&=%0A%0A3%0A%E2%96%BA%0A%0A%0A%0A%0A%0AD&_x:7&f:3%3B&=%0A%0A8%0A%E2%96%BC%0A%0A%0A%0A%0A%0AK%3B&@_y:-0.8999999999999999&x:2&f:3%3B&=%0A%0A2%0A%E2%96%BC%0A%0A%0A%0A%0A%0AS&_x:1&t=%23000000%0A%0A%23dd3c84%0A%231c937f&f:3%3B&=%0A%0A4%0AC-e%0A%0A%0A%0A%0A%0AF&_x:5&t=%23000000%0A%0A%23dd3c84%0A1c937f&f2:0%3B&=%0A%0A7%0A%E2%96%B2%0A%0A%0A%0A%0A%0AJ&_x:1%3B&=%0A%0A9%0A%E2%96%BA%0A%0A%0A%0A%0A%0AL%3B&@_y:-0.9000000000000001&x:5&t=%23000000%0A%0A%23dd3c84%3B&=%0A%0A5%0A%0A%0A%0A%0A%0A%0AG&_x:3&t=%23000000%0A%0A%23dd3c84%0A1c937f&fa@:0&:0&:0&:1%3B%3B&=%0A%0A6%0A%E2%97%80%EF%B8%8E%0A%0A%0A%0A%0A%0AH%3B&@_y:-0.9000000000000001&t=%23000000%0A%0A%23dd3c84%0A%231c937f&f:3%3B&=%0A%0A0%0AC-a%0A%0A%0A%0A%0A%0ACtrl&=%0A%0A1%0A%E2%97%80%EF%B8%8E%0A%0A%0A%0A%0A%0AA&_x:11&t=%23000000%0A%0A%23dd3c84&fa@:0&:0&:0&:1&:0&:0&:0&:0&:0&:4%3B%3B&=%0A%0A0%0A%0A%0A%0A%0A%0A%2F:%0A%2F%3B&_f:2%3B&=%0A%0A%E2%86%B5%0A%0A%0A%0A%0A%0A%22%0A'%20(LT%202)%3B&@_y:-0.2999999999999998&x:3&t=%23000000%0A%0A%23dd3c84%0A%231c937f&f:3&fa@:0&:0&:0&:2%3B%3B&=%0A%0A%0AM%20%3E%0A%0A%0A%0A%0A%0AC&_x:7&t=%23000000&a:5&fa@:0&:0&:0&:2&:0&:0&:6%3B%3B&=%3C%0A%0A%0A%0A%0A%0A,%3B&@_y:-0.8999999999999999&x:2&t=%23000000%0A%0A%23dd3c84%0A%231c937f&a:4%3B&=%0A%0A%0AC-v%0A%0A%0A%0A%0A%0AX&_x:1&t=%23000000%0A%0A%23dd3c84%3B&=%0A%0A%7B%0A%0A%0A%0A%0A%0A%0AV&_x:5%3B&=%0A%0A%7D%0A%0A%0A%0A%0A%0A%0AM&_x:1&t=%23000000&a:5%3B&=%3E%0A%0A%0A%0A%0A%0A.%3B&@_y:-0.8999999999999999&x:5&t=%23000000%0A%0A%23dd3c84&a:4%3B&=%0A%0A%5B%0A%0A%0A%0A%0A%0A%0AB&_x:3%3B&=%0A%0A%5D%0A%0A%0A%0A%0A%0A%0AN%3B&@_y:-0.9000000000000004&t=%23000000&a:7%3B&=Shift&_t=%23000000%0A%0A%23dd3c84%0A%231c937f&a:4&fa@:0&:0&:6&:2%3B%3B&=Z%0A%0A%60%0AM%20%3C&_x:11&t=%23000000%0A%0A%23dd3c84&f:3%3B&=%0A%0A%7C%0A%0A%0A%0A%0A%0A%3F%0A%2F%2F&_t=%23dd3c84&f:2%3B&=(MO%203)%0A%0A%0A%0A%0A%0A(MO%205)%3B&@_y:-0.19999999999999973&x:3.5%3B&=(MO%205)%0A%0A%0A%0A%0A%0A(MO%203)&_x:6&t=%23000000%3B&=(TG%201)%3B&@_r:15&rx:4.5&ry:4.1&y:-0.9999999999999996&f:3%3B&=lapo%3B&@_r:30&rx:5.4&ry:4.3&y:-1.5&x:0.09999999999999964&f:2&h:1.5%3B&=(G%20spc)%3B&@_r:-30&rx:9.6&y:-1.5&x:-1.0999999999999996&f:3&h:1.5%3B&=Enter%3B&@_r:-15&rx:10.5&ry:4.1&y:-1.0999999999999996&x:-1&t=&fa@:2%3B%3B&=rapc][KLE layers (pt.1)]] and [[http://www.keyboard-layout-editor.com/##@_name=zzkt%20-%20emacs&author=https%2F:%2F%2F%2F%2Fgithub.com%2F%2Fzzkt%2F%2Fcrkbd&notes=layers%2F:%0A-%200%20default%0A-%201%20numeric%0A-%202%20move%0A-%203%20emacs%0A-%204%20hypm%0A-%205%20qmik&plate:false%3B&@_x:3&a:7%3B&=C-x%200&_x:7&t=%23000000%0A%0A%23dd3c84&a:4%3B&=%0A%0AH-i%3B&@_y:-0.9&x:2&t=%23000000&a:7%3B&=%3B&@_y:-1&x:4%3B&=C-x%202&_x:5%3B&=&_x:1&t=%23000000%0A%0A%23dd3c84%0A%0A%0A%0A%0A%23dd3c84&a:4%3B&=%0A%0AH-i%20o%0A%0A%0A%0AC-M%20o%3B&@_y:-0.9000000000000001&x:5&t=%23000000&a:7%3B&=C-x%203&_x:3%3B&=C-x%204%20t%3B&@_y:-0.8999999999999999&t=%23000000%0A%0A%23dd3c84&a:4%3B&=esc&_t=%23000000&a:7%3B&=&_x:11&t=%23000000%0A%0A%23dd3c84%0A%0A%0A%0A%0A%23dd3c84&a:4%3B&=%0A%0AH-i%20l&_t=%23000000&a:7%3B&=%3B&@_y:-0.30000000000000004&x:3&t=%23000000%0A%0A%23dd3c84%0A1c937f&a:4%3B&=%0A%0AH-d&_x:7&t=%23000000&a:7%3B&=%3B&@_y:-0.8999999999999999&x:2%3B&=M-%25&_x:1%3B&=&_x:5%3B&=&_x:1%3B&=%3B&@_y:-0.9000000000000001&x:5%3B&=(gtd)&_x:3&a:6%3B&=C-x%20b%3B&@_y:-0.9000000000000001&a:7%3B&=&=&_x:11%3B&=&_f:2%3B&=%3B&@_y:-0.2999999999999998&x:3&f:3%3B&=C-c&_x:7&t=%23000000%0A%0A%23dd3c84&a:4&fa@:0&:0&:2&:0&:0&:0&:0&:0&:0&:0%3B%3B&=%0A%0AH-m%20s%3B&@_y:-0.8999999999999999&x:2&t=%23000000&a:7%3B&=M-x&_x:1%3B&=&_x:5&t=%23000000%0A%0A%23dd3c84&a:4&fa@:0&:0&:0&:0&:0&:0&:0&:0&:0&:2%3B%3B&=%0A%0AH-m%0A%0A%0A%0A%0A%0A%0A(magit)&_x:1&t=%23000000&a:7%3B&=%3B&@_y:-0.8999999999999999&x:5%3B&=&_x:3&t=%23000000%0A%0A%23dd3c84&a:4%3B&=%0A%0AH-n%3B&@_y:-0.9000000000000004&t=%23000000%3B&=reset&_a:7%3B&=&_x:11%3B&=&_t=%23dd3c84&f:2%3B&=%3B&@_y:-0.19999999999999973&x:3.5%3B&=&_x:6&t=%23000000%3B&=(MO%204)%3B&@_r:15&rx:4.5&ry:4.1&y:-0.9999999999999996&f:3%3B&=lapo%3B&@_r:30&rx:5.4&ry:4.3&y:-1.5&x:0.09999999999999964&f:2&fa@:4%3B&h:1.5%3B&=H-i%20e%3B&@_r:-30&rx:9.6&y:-1.5&x:-1.0999999999999996&f:3&fa@:4%3B&h:1.5%3B&=C-x%208%3B&@_r:-15&rx:10.5&ry:4.1&y:-1.0999999999999996&x:-1&f:3%3B&=rapc][KLE layers (pt.2)]] etc.
+insert keyboard cheatsheet
 
 * further
-
  - [[https://config.qmk.fm/#/crkbd/rev1/common/LAYOUT_split_3x6_3][QMK Configurator]] (for crkbd)
  - [[https://josef-adamcik.cz/electronics/corne-keyboard-build-log.html][Build log - Josef Adamčík]]
  - [[https://thomasbaart.nl/2018/11/26/corne-keyboard-helidox-build-log/][Build log - Thomas Baart]]
