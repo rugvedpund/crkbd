@@ -1,60 +1,36 @@
 # -*- mode: org;  coding: utf-8; -*-
-#+author: nik gaffney <nik@fo.am>
-#+title:  QMK config for crkbd
+#+author: pund foo <pundfoo@duck.com>
+#+title:  crkbd keymap
 
-The Corne keyboard is a split keyboard with 3x6 column staggered keys and 3 thumb keys.
-
-[[file:img/crkbd-phosphorous.jpg]]
-
+it's corne! a split keyboard with 3x6 column staggered keys and 3 thumb keys
 
 The keyboard can be programmed using the [[https://qmk.fm/][QMK]] firmware for the [[https://github.com/foostan/crkbd][crkbd]]. With the help of the [[https://github.com/mihaiolteanu/mugur][mugur]] interface this file can be used as a literate config to generate a keymap and the relevant build files for the QMK firmware…
 
-For reference, comparison and reading the [[https://github.com/manna-harbour/qmk_firmware/blob/crkbd/keyboards/crkbd/keymaps/manna-harbour/readme.org][Crkbd Keymap by Manna Harbour]] and [[https://github.com/qmk/qmk_firmware/tree/master/users/drashna][drashna]] provide good examples of detailed configs, and the [[https://github.com/qmk/qmk_firmware/tree/master/keyboards/crkbd/keymaps][QMK tree]] has further specifics and a wide range of examples.
+For reference, comparison and reading [[https://github.com/manna-harbour/qmk_firmware/blob/crkbd/keyboards/crkbd/keymaps/manna-harbour/readme.org][Crkbd Keymap by Manna Harbour]].
 
 * general principles
 
-This config uses a mulit-layer qwerty layout which has emerged from a combination of writing and programming using emacs (and emacs style keybindings) on macos and linux. The numeric layer has numbers on the home row and shifted symbols on the first row, with commonly used brackets on the third row symmetrically between sides. The emacs layer(s) provide both command and prefix keys. The movement layer provides arrows (as WASD and HJKL) and jump keys on the left and mouse keys (when enabled) on the right. There is a QMK reset key on each half of the keyboard.
+- vim, tmux, emacs; python, latex, lisp
+- qwerty with space cadets
+- oled goodies; no backlight
 
 * specific mappings
 
-Details of keyboard layout, layers, macros and general confusion can be found in the [[https://docs.qmk.fm/#/][QMK docs]]
-
-*Layers*
-  - qwerty and modifiers.
-  - numbers, symbols & brackets.
-  - movement. arrows & jump on the left,  mouse keys on the right
-  - emacs layers.
-  - qmk control layer.
-
-*Modifiers*
-  - Left thumb (base layer) Emacs layer, =KC_LAPO=, and GUI (held) or space (tap)
-  - Right thumb (base layer) Enter, =KC_RAPC=, and Toggle numeric layer
-
-The =KC_LAPO= key is Left Alt when held and =(= when tapped, it can be used as =Meta=. The =KC_RAPC= key is Right Alt when held and =)= when tapped, it can be used for accents and non-ascii characters with the international macOS input sources.
-
-The =emacs= layer is activated with Left-thumb-outer (=L30=) and the =hypm= layer can be activated with Left-thumb-outer, right-thumb-outer (=R32=) and can be used to provide the =H-= prefix bindings defined in =.emacs=  The =hyper= key seen by emacs  can be mapped to =KC_RGUI= rather than the =KC_HYPR= modifier combination (see also the “[[https://github.com/qmk/qmk_firmware/issues/2179][the infamous Apple Fn key]]” for compatibility)
-
-*QMK Reset*
- - Left. =L20= & =L30=
- - Right. =R25= & =R05=
-
 To create a new layer, start with a blank layer.
 
-#+BEGIN_SRC emacs-lisp :tangle no :results silent :eval no
+#+BEGIN_example
 ("blank"
  --- --- --- --- --- ---    --- --- --- --- --- ---
  --- --- --- --- --- ---    --- --- --- --- --- ---
  --- --- --- --- --- ---    --- --- --- --- --- ---
               --- --- ---  --- --- --- )
-#+END_SRC
+#+END_example
 
-Details of the =mugur= keycode naming can be found in the documentation of  =mugur--symbol=
+=mugur= keycodes are in =mugur--symbol=
 
-#+BEGIN_SRC emacs-lisp :tangle no :results silent
+#+BEGIN_SRC emacs-lisp :results silent
 (find-function 'mugur--symbol)
 #+END_SRC
-
-A complete keymap can be defined within =mugur-mugur= which will generate the required files to build the firmware.
 
 #+name: keymap
 #+BEGIN_SRC emacs-lisp :tangle no :results silent :eval query :lexical yes
@@ -63,7 +39,7 @@ A complete keymap can be defined within =mugur-mugur= which will generate the re
 (let ((mugur-qmk-path       "~/src/miryoku_qmk")
       (mugur-keyboard-name  "crkbd/rev1")
       (mugur-layout-name    "LAYOUT_split_3x6_3")
-      (mugur-keymap-name    "zzkt4")
+      (mugur-keymap-name    "pufoo")
       (mugur-tapping-term    175))
 
  (mugur-mugur
