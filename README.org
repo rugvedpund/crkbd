@@ -4,94 +4,13 @@
 
 it's corne! a split keyboard with 3x6 column staggered keys and 3 thumb keys
 
-The keyboard can be programmed using the [[https://qmk.fm/][QMK]] firmware for the [[https://github.com/foostan/crkbd][crkbd]]. With the help of the [[https://github.com/mihaiolteanu/mugur][mugur]] interface this file can be used as a literate config to generate a keymap and the relevant build files for the QMK firmware…
-
-For reference, comparison and reading [[https://github.com/manna-harbour/qmk_firmware/blob/crkbd/keyboards/crkbd/keymaps/manna-harbour/readme.org][Crkbd Keymap by Manna Harbour]].
-
 * general principles
 
 - vim, tmux, emacs; python, latex, lisp
 - qwerty with space cadets
 - oled goodies; no backlight
 
-* keymap
-** [ ] symbol reference
-=mugur= keycodes are in =mugur--symbol=
-
-#+BEGIN_SRC emacs-lisp :results silent
-(require 'mugur)
-(find-function 'mugur--symbol)
-#+END_SRC
-
-** [ ] firmware
-template:
-#+name: blank-layer
-#+BEGIN_example emacs-lisp
-("blank"
- --- --- --- --- --- ---    --- --- --- --- --- ---
- --- --- --- --- --- ---    --- --- --- --- --- ---
- --- --- --- --- --- ---    --- --- --- --- --- ---
-              --- --- ---  --- --- --- )
-#+END_example
-
-mugur
-#+name: keymap
-#+BEGIN_SRC emacs-lisp :results silent :eval query :lexical yes
-(let ((mugur-qmk-path       "~/src/miryoku_qmk")
-      (mugur-keyboard-name  "crkbd/rev1")
-      (mugur-layout-name    "LAYOUT_split_3x6_3")
-      (mugur-keymap-name    "pufoo")
-      (mugur-tapping-term    175))
-
- (mugur-mugur
-  '(("base"
-        tab    q   w   e   r   t      y   u   i    o    p     bspace
-         C     a   s   d   f   g      h   j   k    l  scolon (LT move ?\')
-     (LT lshift up) z   x   c   v   b      n   m comma dot  slash (LT hypm down)
-         (MO emacs) lapo (G space)  (G ent) rapc (TT numeric))
-
-     ("numeric"
-       "~"          ?\!   ?\@   ?\#  ?\$  ?\%     ?\^  ?\&  ?\*   -   =  bspace
-        0            1     2     3    4    5       6    7    8    9   0  (LT move ent)
-       (LT lshift left)  "`"   ---   ?\\  ?\{  ?\[     ?\]  ?\} comma dot  |  (LT lshift right)
-                             (TG qmik) lapo ---  --- rapc ---)
-
-     ("move"
-       --- M-v   up   ---  --- ---      ---  ---  ---  ---  --- ---
-       C-a left down right C-e ---     left  up  down right -x- ---
-       --- M-<  C-v   M->  --- ---      ---  ---  ---  ---  --- ---
-                            C  S ---   ---  --- --- )
-
-     ("emacs"
-       esc  --- --- (C-x 0) (C-x 2) (C-x 3)   (C-x 4 t)  --- --- (C-M o) --- ---
-       ---  --- M-% --- --- (M-x "gtd" ent)   (C-x b)    --- --- "λ" --- ---
-      reset --- M-x C-c ---  ?\(               ?\)  (M-x "magit" ent) --- --- --- ---
-                     --- ---  (H-i e)        (C-x 8) --- (MO hypm))
-
-     ("hypm"
-         x  --- --- --- --- "  - [ ] "   ---     ---     H-i   (H-i o) (H-i l) ---
-        --- --- --- H-d --- "  - "       ---     ---     ---     ---     ---   ---
-        --- --- --- --- --- ---        (H-m n) (H-m m) (H-m s)   ---     ---   ---
-                     --- --- ---       ---  --- --- )
-
-     ("qmik"
-        -x-   rgb_tog rgb_mod -x- -x- -x-    --- --- --- --- --- reset
-      rgb_sad rgb_vad rgb_hud -x- -x- -x-    --- --- --- --- --- ---
-      rgb_sai rgb_vai rgb_hui -x- -x- -x-    --- --- --- ---  S  ---
-                               --- --- ---  ---  --- --- )
-     )))
-#+END_SRC
-
-an optional  base config for Colemak
-
-#+BEGIN_SRC emacs-lisp
-("colemak"
-        tab    q   w   f   p   g      j   l   u    y   scolon      bspace
-         C     a   r   s   t   d      h   n   e    i     o   (LT move ?\')
-     (LT lshift up) z   x   c   v   b      k   m comma dot  slash (LT hypm down)
-         (MO emacs) lapo (G space)  ent rapc (TT numeric))
-#+END_SRC
-
+* qmk
 ** [ ] keymap.c
 :PROPERTIES:
 :header-args:c: :eval no :comments both
@@ -280,11 +199,6 @@ qmk flash -km zzkt4 -bl dfu-split-left
 qmk flash -km zzkt4 -bl dfu-split-right
 #+END_SRC
 
-* illustrative
+* reference
 insert keyboard cheatsheet
 
-* further
- - [[https://config.qmk.fm/#/crkbd/rev1/common/LAYOUT_split_3x6_3][QMK Configurator]] (for crkbd)
- - [[https://josef-adamcik.cz/electronics/corne-keyboard-build-log.html][Build log - Josef Adamčík]]
- - [[https://thomasbaart.nl/2018/11/26/corne-keyboard-helidox-build-log/][Build log - Thomas Baart]]
- - [[https://en.wikipedia.org/wiki/Keyboard_layout][Keyboard Layouts]] (wikipedia)
