@@ -1,0 +1,16 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/pund/src/crkbd/todo.org
+
+
+* DONE mine is pro-micro
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-07-22 Tue 14:29
+:ARCHIVE_FILE: ~/src/crkbd/todo.org
+:ARCHIVE_OLPATH: Inbox
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+
+[[file:~/src/crkbd/rules.mk::BOOTLOADER = dfu # Elite-C]]

@@ -1,0 +1,13 @@
+# START-MUGUR-REGION
+# END-MUGUR-REGION
+
+# BOOTLOADER         = dfu # Elite-C
+
+RGBLIGHT_ENABLE    = no
+RGB_MATRIX_ENABLE  = no
+UNICODE_ENABLE     = yes
+OLED_DRIVER_ENABLE = yes
+MOUSEKEY_ENABLE    = yes
+CONSOLE_ENABLE     = yes
+# VIA_ENABLE         = yes
+# LTO_ENABLE         = yes
