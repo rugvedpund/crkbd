@@ -10,6 +10,79 @@ it's corne! a split keyboard with 3x6 column staggered keys and 3 thumb keys
 - qwerty with space cadets
 - oled goodies; no backlight
 
+#+begin_src python :results output
+alpha="abcdefghijklmnopqrstuvwxyz"
+num="0123456789"
+sym="!@#$%^&*()-_=+|\[{}]\"':;/?.>,<`~"
+fn=[f"f{n}" for n in range(1,13)]
+mod="shft ctrl alt ralt super hyper "
+cmd="esc tab ret bsp del"
+print(list(sym))
+#+end_src
+
+#+RESULTS:
+: ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '|', '\\', '[', '{', '}', ']', '"', "'", ':', ';', '/', '?', '.', '>', ',', '<', '`', '~']
+
+* mugur mugur
+
+template:
+#+name: blank-layer
+#+BEGIN_example emacs-lisp
+("blank"
+ --- --- --- --- --- ---    --- --- --- --- --- ---
+ --- --- --- --- --- ---    --- --- --- --- --- ---
+ --- --- --- --- --- ---    --- --- --- --- --- ---
+              --- --- ---  --- --- --- )
+#+END_example
+
+mugur
+#+name: keymap
+#+BEGIN_SRC emacs-lisp :results silent :eval no :lexical yes
+(let ((mugur-qmk-path       "$HOME/src/qmk_firmware")
+      (mugur-keyboard-name  "crkbd/rev1")
+      (mugur-layout-name    "LAYOUT_split_3x6_3")
+      (mugur-keymap-name    "pufoo")
+      (mugur-tapping-term    175))
+
+ (mugur-mugur
+  '(("white"
+            esc q   w   e   r   t      y   u   i    o    p    bspace
+        (OSM M) a   s   d   f   g      h   j   k    l   ?\;   (LT G ent)
+        (OSL red) z   x   c   v   b    n   m  ?\,  ?\.  ?\/ (OSL yellow)
+        (OSM C) spc (OSL blue)     (OSL green) (OSM S) (OSM lgui))
+
+     ("red"
+            ?\` ?\!   ?\@   ?\#  ?\$  ?\%     ?\^  ?\&  ?\*  ?\( ?\) ?\]
+            --- 1     2     3    4    5       6    7    8    9   0  (LT move ent)
+            --- "`"   ---   ?\\  ?\{  ?\[     ?\]  ?\} comma dot slash (LT lshift right)
+            --- --- ---                       --- --- ---)
+
+     ("green"
+       --- del  ins ?\_ ?\+ pgdn      --- vol-u vol-d ?\\ ?\| ---
+       --- home end ?\- ?\= pgup      left down up right ms_btn1 ---
+       --- M-<  C-v M->  --- ---      ms_left ms_down ms_up ms_right ms_btn2 ---
+                            C  S ---   ---  --- --- )
+
+     ("blue"
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+                    --- --- ---  --- --- --- ))
+
+     ("yellow"
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+        --- --- --- --- --- ---    --- --- --- --- --- ---
+                --- --- ---  --- --- --- ))
+
+     ("qmik"
+        -x-   rgb_tog rgb_mod -x- -x- -x-    --- --- --- --- --- reset
+      rgb_sad rgb_vad rgb_hud -x- -x- -x-    --- --- --- --- --- ---
+      rgb_sai rgb_vai rgb_hui -x- -x- -x-    --- --- --- ---  S  ---
+                               --- --- ---  ---  --- --- )
+     )))
+#+END_SRC
+
 * qmk
 ** [ ] keymap.c
 :PROPERTIES:
